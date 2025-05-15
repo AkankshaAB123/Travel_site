@@ -33,12 +33,23 @@ exports.addBooking = ({ ffirst, flast, femail, city, fphone, fdesti }) => {
       INSERT INTO booking (ffirst, flast, femail, city, fphone, fdesti)
       VALUES (?, ?, ?, ?, ?, ?)
     `;
+    
     db.query(query, [ffirst, flast, femail, city, fphone, fdesti], (err, result) => {
       if (err) {
         console.error('Error adding booking:', err.message);
         return reject(err);
       }
-      resolve({ id: result.insertId });
+      
+      // Return the newly created booking with its ID
+      resolve({
+        id: result.insertId,
+        ffirst,
+        flast,
+        femail,
+        city,
+        fphone,
+        fdesti
+      });
     });
   });
 };
@@ -51,15 +62,26 @@ exports.updateBooking = (id, { ffirst, flast, femail, city, fphone, fdesti }) =>
       SET ffirst = ?, flast = ?, femail = ?, city = ?, fphone = ?, fdesti = ?
       WHERE id = ?
     `;
+    
     db.query(query, [ffirst, flast, femail, city, fphone, fdesti, id], (err, result) => {
       if (err) {
         console.error('Error updating booking:', err.message);
         return reject(err);
       }
+      
       if (result.affectedRows === 0) {
-        return resolve(null); // Booking not found
+        return resolve(null);
       }
-      resolve({ updated: true });
+      
+      resolve({
+        id,
+        ffirst,
+        flast,
+        femail,
+        city,
+        fphone,
+        fdesti
+      });
     });
   });
 };
@@ -67,16 +89,17 @@ exports.updateBooking = (id, { ffirst, flast, femail, city, fphone, fdesti }) =>
 // Delete a booking
 exports.deleteBooking = (id) => {
   return new Promise((resolve, reject) => {
-    const query = 'DELETE FROM booking WHERE id = ?';
-    db.query(query, [id], (err, result) => {
+    db.query('DELETE FROM booking WHERE id = ?', [id], (err, result) => {
       if (err) {
         console.error('Error deleting booking:', err.message);
         return reject(err);
       }
+      
       if (result.affectedRows === 0) {
-        return resolve(null); // Booking not found
+        return resolve(null);
       }
-      resolve({ deleted: true });
+      
+      resolve({ id, deleted: true });
     });
   });
 };

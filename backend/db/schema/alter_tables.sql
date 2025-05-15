@@ -1,4 +1,3 @@
-
 --
 -- Indexes for table `booking`
 --
@@ -103,3 +102,12 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- Alter login table to add user_id column
+ALTER TABLE `login` 
+ADD COLUMN `user_id` INT NOT NULL AFTER `user`,
+ADD FOREIGN KEY (`user_id`) REFERENCES `users`(`id`);
+
+-- Update login table structure
+ALTER TABLE `login` 
+MODIFY COLUMN `date_time` DATETIME DEFAULT CURRENT_TIMESTAMP;

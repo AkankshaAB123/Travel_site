@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 const router = express.Router();
 const bookingController = require('../controllers/bookingController');
@@ -32,15 +30,15 @@ router.get('/:id', async (req, res) => {
 
 // POST /api/bookings - Create new booking
 router.post('/', async (req, res) => {
-  const { customer_id, destination, date, agent_id } = req.body;
+  const { ffirst, flast, femail, city, fphone, fdesti } = req.body;
 
-  // Basic validation (can be enhanced using Joi or express-validator)
-  if (!customer_id || !destination || !date || !agent_id) {
+  // Basic validation
+  if (!ffirst || !flast || !femail || !city || !fphone || !fdesti) {
     return res.status(400).json({ message: 'All booking fields are required' });
   }
 
   try {
-    const newBooking = await bookingController.addBooking({ customer_id, destination, date, agent_id });
+    const newBooking = await bookingController.addBooking({ ffirst, flast, femail, city, fphone, fdesti });
     res.status(201).json({ message: 'Booking created successfully', booking: newBooking });
   } catch (error) {
     console.error('Error creating booking:', error);
@@ -51,14 +49,16 @@ router.post('/', async (req, res) => {
 // PUT /api/bookings/:id - Update booking by ID
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { customer_id, destination, date, agent_id } = req.body;
+  const { ffirst, flast, femail, city, fphone, fdesti } = req.body;
 
   try {
     const updatedBooking = await bookingController.updateBooking(id, {
-      customer_id,
-      destination,
-      date,
-      agent_id,
+      ffirst,
+      flast,
+      femail,
+      city,
+      fphone,
+      fdesti
     });
 
     if (!updatedBooking) {

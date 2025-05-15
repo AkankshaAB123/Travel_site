@@ -6,85 +6,76 @@ const db = require('../connection');
 // Create a MySQL connection
 
 // Handler to get all places
-exports.getAllPlaces = (req, res) => {
-  db.query('SELECT * FROM places', (err, results) => {
-    if (err) {
-      console.error('Error retrieving places:', err.message);
-      return res.status(500).json({ message: 'Error retrieving places' });
-    }
+exports.getAllPlaces = async (req, res) => {
+  try {
+    const [results] = await db.query('SELECT * FROM places');
     res.json(results);
-  });
+  } catch (err) {
+    console.error('Error retrieving places:', err.message);
+    res.status(500).json({ message: 'Error retrieving places' });
+  }
 };
 
 // Handler to get place by id
-exports.getPlaceById = (req, res) => {
+exports.getPlaceById = async (req, res) => {
   const { id } = req.params;
-
-  db.query('SELECT * FROM places WHERE pid = ?', [id], (err, result) => {
-    if (err) {
-      console.error('Error retrieving place:', err.message);
-      return res.status(500).json({ message: 'Error retrieving place' });
-    }
+  try {
+    const [result] = await db.query('SELECT * FROM places WHERE pid = ?', [id]);
     if (result.length === 0) {
       return res.status(404).json({ message: 'Place not found' });
     }
     res.json(result[0]);
-  });
+  } catch (err) {
+    console.error('Error retrieving place:', err.message);
+    res.status(500).json({ message: 'Error retrieving place' });
+  }
 };
 
 // Handler to add a new place
-exports.addPlace = (req, res) => {
+exports.addPlace = async (req, res) => {
   const { pname, pcity } = req.body;
-
   if (!pname || !pcity) {
     return res.status(400).json({ message: 'Please provide both pname and pcity' });
   }
-
-  const query = 'INSERT INTO places (pname, pcity) VALUES (?, ?)';
-  db.query(query, [pname, pcity], (err, result) => {
-    if (err) {
-      console.error('Error adding place:', err.message);
-      return res.status(500).json({ message: 'Error adding place' });
-    }
+  try {
+    const [result] = await db.query('INSERT INTO places (pname, pcity) VALUES (?, ?)', [pname, pcity]);
     res.status(201).json({ message: 'Place added successfully', place_id: result.insertId });
-  });
+  } catch (err) {
+    console.error('Error adding place:', err.message);
+    res.status(500).json({ message: 'Error adding place' });
+  }
 };
 
 // Handler to update place details
-exports.updatePlace = (req, res) => {
+exports.updatePlace = async (req, res) => {
   const { id } = req.params;
   const { pname, pcity } = req.body;
-
   if (!pname || !pcity) {
     return res.status(400).json({ message: 'Please provide both pname and pcity' });
   }
-
-  const query = 'UPDATE places SET pname = ?, pcity = ? WHERE pid = ?';
-  db.query(query, [pname, pcity, id], (err, result) => {
-    if (err) {
-      console.error('Error updating place:', err.message);
-      return res.status(500).json({ message: 'Error updating place' });
-    }
+  try {
+    const [result] = await db.query('UPDATE places SET pname = ?, pcity = ? WHERE pid = ?', [pname, pcity, id]);
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: 'Place not found' });
     }
     res.json({ message: 'Place updated successfully' });
-  });
+  } catch (err) {
+    console.error('Error updating place:', err.message);
+    res.status(500).json({ message: 'Error updating place' });
+  }
 };
 
 // Handler to delete place by id
-exports.deletePlace = (req, res) => {
+exports.deletePlace = async (req, res) => {
   const { id } = req.params;
-
-  const query = 'DELETE FROM places WHERE pid = ?';
-  db.query(query, [id], (err, result) => {
-    if (err) {
-      console.error('Error deleting place:', err.message);
-      return res.status(500).json({ message: 'Error deleting place' });
-    }
+  try {
+    const [result] = await db.query('DELETE FROM places WHERE pid = ?', [id]);
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: 'Place not found' });
     }
     res.json({ message: 'Place deleted successfully' });
-  });
+  } catch (err) {
+    console.error('Error deleting place:', err.message);
+    res.status(500).json({ message: 'Error deleting place' });
+  }
 };

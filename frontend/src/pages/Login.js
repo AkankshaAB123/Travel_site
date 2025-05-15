@@ -1,42 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
-  const [form, setForm] = useState({ username: '', email: '', password: '', confirmPassword: '' });
+const Login = () => {
+  const [form, setForm] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError('');
-    setSuccess('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
-    if (form.password !== form.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: form.username, email: form.email, password: form.password }),
+        body: JSON.stringify(form),
         credentials: 'include'
       });
-      const data = await res.json();
       if (!res.ok) {
-        setError(data.message || 'Registration failed');
+        const data = await res.json();
+        setError(data.message || 'Login failed');
         return;
       }
-      setSuccess('Registration successful! You can now sign in.');
-      setTimeout(() => navigate('/login'), 1500);
+      const data = await res.json();
+      localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('token', data.token);
+      navigate('/');
     } catch (err) {
-      setError('An error occurred during registration.');
+      setError('An error occurred during login.');
     }
   };
 
@@ -52,7 +47,7 @@ const Register = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-indigo-900/60" />
       </div>
       <div className="bg-white bg-opacity-90 p-10 rounded-2xl shadow-2xl w-full max-w-xl z-10 relative">
-        <h2 className="text-5xl font-bold text-center text-indigo-700 mb-10" style={{ fontFamily: 'Times New Roman, Times, serif' }}>Sign Up</h2>
+        <h2 className="text-5xl font-bold text-center text-indigo-700 mb-10" style={{ fontFamily: 'Times New Roman, Times, serif' }}>Sign In</h2>
         <form onSubmit={handleSubmit} className="space-y-8">
           <div>
             <label className="block text-gray-700 font-bold mb-2 text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>Username</label>
@@ -63,19 +58,6 @@ const Register = () => {
               onChange={handleChange}
               className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-400 text-2xl"
               placeholder="Enter your username"
-              required
-              style={{ fontFamily: 'Times New Roman, Times, serif' }}
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2 text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-400 text-2xl"
-              placeholder="Enter your email"
               required
               style={{ fontFamily: 'Times New Roman, Times, serif' }}
             />
@@ -93,37 +75,23 @@ const Register = () => {
               style={{ fontFamily: 'Times New Roman, Times, serif' }}
             />
           </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2 text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-400 text-2xl"
-              placeholder="Confirm your password"
-              required
-              style={{ fontFamily: 'Times New Roman, Times, serif' }}
-            />
-          </div>
           {error && <div className="text-red-600 text-center font-bold text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>{error}</div>}
-          {success && <div className="text-green-600 text-center font-bold text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>{success}</div>}
           <button
             type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-lg text-2xl transition duration-200"
             style={{ fontFamily: 'Times New Roman, Times, serif' }}
           >
-            Sign Up
+            Sign In
           </button>
         </form>
         <div className="mt-8 text-center text-gray-700 text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
-          Already have an account?{' '}
+          Don&apos;t have an account?{' '}
           <span
             className="text-indigo-600 hover:underline cursor-pointer font-bold"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/register')}
             style={{ fontFamily: 'Times New Roman, Times, serif' }}
           >
-            Sign In
+            Sign Up
           </span>
         </div>
       </div>
@@ -131,4 +99,4 @@ const Register = () => {
   );
 };
 
-export default Register; 
+export default Login; 

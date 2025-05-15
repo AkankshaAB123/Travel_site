@@ -78,11 +78,11 @@ INSERT INTO `payments` (`id`, `booking_id`, `payment_method`, `amount`, `payment
 (32, 12, 'Credit Card', 210.00, 'pending', 'TXN1008', '2025-04-30 16:35:33');
 
 INSERT INTO `places` (`pid`, `pname`, `pcity`) VALUES
-(1, 'Tajmahal', 'Agra'),
-(2, 'Beach', 'Goa'),
-(3, 'India Gate', 'Delhi'),
-(4, 'Kerala Beach', 'Kerala'),
-(5, 'Mysore Palace', 'Mysore'),
+(1, 'Hyderabad', 'Telangana'),
+(2, 'Allepey', 'Kerela'),
+(3, 'Ooty', 'TamilNadu'),
+(4, 'Panaji', 'Goa'),
+(5, 'Mysore ', 'Karnataka'),
 (6, 'Ladakh', 'Ladakh India');
 
 INSERT INTO `travel_agent` (`aid`, `afname`, `aemail`, `aphone`, `acity`) VALUES
@@ -91,7 +91,7 @@ INSERT INTO `travel_agent` (`aid`, `afname`, `aemail`, `aphone`, `acity`) VALUES
 (3, 'kiran', 'kiru34@gmail.com', 78969665, 'Mysore');
 
 INSERT INTO `users` (`username`, `email`, `password`, `created_at`) VALUES
-('arjun', 'arjun.kumar@example.com', 'Arjun@123', '2025-04-30 09:38:06'),
+('arjun', 'arjun.kumar@example.com', 'Arjun@12', '2025-04-30 09:38:06'),
 ('priya', 'priya.sharma@example.com', 'Priya#456', '2025-04-30 09:38:06'),
 ('rahul', 'rahul.verma@example.com', 'Rahul$789', '2025-04-30 09:38:06'),
 ('ananya', 'ananya.singh@example.com', 'Ananya*321', '2025-04-30 09:38:06'),
