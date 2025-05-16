@@ -54,6 +54,9 @@ app.use('/api/places', placeRoutes);
 app.use('/api/feedbacks', feedbackRoutes);
 app.use('/api/auth', authRoutes);
 
+// Serve static files from the images directory
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 // Serve frontend (React) in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/build')));

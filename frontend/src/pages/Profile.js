@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/pages/Profile.css';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -40,68 +41,68 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-2xl text-gray-600">Loading...</div>
+      <div className="profile-loading">
+        <div className="profile-loading-text">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="bg-white shadow rounded-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Profile Information</h2>
+    <div className="profile-container">
+      <div className="profile-content">
+        <div className="profile-section">
+          <h2 className="profile-title">Profile Information</h2>
           {user && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <p className="text-sm font-medium text-gray-500">Name</p>
-                <p className="mt-1 text-lg text-gray-900">{user.fname}</p>
+            <div className="profile-grid">
+              <div className="profile-field">
+                <p className="profile-label">Name</p>
+                <p className="profile-value">{user.fname}</p>
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-500">Email</p>
-                <p className="mt-1 text-lg text-gray-900">{user.email}</p>
+              <div className="profile-field">
+                <p className="profile-label">Email</p>
+                <p className="profile-value">{user.email}</p>
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-500">City</p>
-                <p className="mt-1 text-lg text-gray-900">{user.city}</p>
+              <div className="profile-field">
+                <p className="profile-label">City</p>
+                <p className="profile-value">{user.city}</p>
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-500">Phone</p>
-                <p className="mt-1 text-lg text-gray-900">{user.phone}</p>
+              <div className="profile-field">
+                <p className="profile-label">Phone</p>
+                <p className="profile-value">{user.phone}</p>
               </div>
             </div>
           )}
         </div>
 
-        <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Your Bookings</h2>
+        <div className="profile-section">
+          <h2 className="profile-title">Your Bookings</h2>
           {error && (
-            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="profile-error">
+              <p className="profile-error-text">{error}</p>
             </div>
           )}
           {bookings.length === 0 ? (
-            <p className="text-gray-500">No bookings found.</p>
+            <p className="profile-empty">No bookings found.</p>
           ) : (
-            <div className="grid grid-cols-1 gap-6">
+            <div className="profile-grid">
               {bookings.map(booking => (
-                <div key={booking.id} className="border rounded-lg p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm font-medium text-gray-500">Destination</p>
-                      <p className="mt-1 text-lg text-gray-900">{booking.fdesti}</p>
+                <div key={booking.id} className="profile-booking">
+                  <div className="profile-grid">
+                    <div className="profile-field">
+                      <p className="profile-label">Destination</p>
+                      <p className="profile-value">{booking.fdesti}</p>
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-500">City</p>
-                      <p className="mt-1 text-lg text-gray-900">{booking.city}</p>
+                    <div className="profile-field">
+                      <p className="profile-label">City</p>
+                      <p className="profile-value">{booking.city}</p>
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-500">Name</p>
-                      <p className="mt-1 text-lg text-gray-900">{booking.ffirst} {booking.flast}</p>
+                    <div className="profile-field">
+                      <p className="profile-label">Name</p>
+                      <p className="profile-value">{booking.ffirst} {booking.flast}</p>
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-500">Contact</p>
-                      <p className="mt-1 text-lg text-gray-900">{booking.fphone}</p>
+                    <div className="profile-field">
+                      <p className="profile-label">Contact</p>
+                      <p className="profile-value">{booking.fphone}</p>
                     </div>
                   </div>
                 </div>

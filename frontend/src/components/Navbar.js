@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import '../styles/components/Navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
@@ -12,70 +14,118 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="text-2xl font-bold text-indigo-600">
-                Travel Site
-              </Link>
-            </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link
-                to="/"
-                className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              >
-                Home
-              </Link>
-              <Link
-                to="/places"
-                className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              >
-                Destinations
-              </Link>
-              <Link
-                to="/hotels"
-                className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              >
-                Hotels
-              </Link>
-            </div>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-content">
+          <div className="navbar-brand">
+            <Link to="/" className="navbar-logo">
+              Travel Site
+            </Link>
           </div>
-          <div className="hidden sm:ml-6 sm:flex sm:items-center">
+
+          <div className="navbar-links">
+            <Link to="/" className="navbar-link">
+              Home
+            </Link>
+            <Link to="/places" className="navbar-link">
+              Destinations
+            </Link>
+            <Link to="/hotels" className="navbar-link">
+              Hotels
+            </Link>
+          </div>
+
+          <div className="navbar-actions">
             {user ? (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/profile"
-                  className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                >
+              <>
+                <Link to="/profile" className="navbar-button navbar-button-secondary">
                   Profile
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
+                  className="navbar-button navbar-button-primary"
                 >
                   Logout
                 </button>
-              </div>
+              </>
             ) : (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/login"
-                  className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                >
+              <>
+                <Link to="/login" className="navbar-button navbar-button-secondary">
                   Login
                 </Link>
-                <Link
-                  to="/register"
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
-                >
+                <Link to="/register" className="navbar-button navbar-button-primary">
                   Register
                 </Link>
-              </div>
+              </>
             )}
           </div>
+
+          <div className="navbar-mobile-menu">
+            <button
+              className="navbar-mobile-button"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {isMobileMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
+
+        {isMobileMenuOpen && (
+          <div className="navbar-mobile-links">
+            <Link to="/" className="navbar-link">
+              Home
+            </Link>
+            <Link to="/places" className="navbar-link">
+              Destinations
+            </Link>
+            <Link to="/hotels" className="navbar-link">
+              Hotels
+            </Link>
+            {user ? (
+              <>
+                <Link to="/profile" className="navbar-link">
+                  Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="navbar-button navbar-button-primary"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="navbar-link">
+                  Login
+                </Link>
+                <Link to="/register" className="navbar-button navbar-button-primary">
+                  Register
+                </Link>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );

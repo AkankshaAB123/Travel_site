@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import '../styles/pages/PlaceDetails.css';
 
 const PlaceDetails = () => {
   const { id } = useParams();
@@ -7,6 +8,7 @@ const PlaceDetails = () => {
   const [place, setPlace] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/places/${id}`)
@@ -25,59 +27,122 @@ const PlaceDetails = () => {
   }, [id]);
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-2xl text-gray-600">Loading destination details...</div>
+    <div className="place-details-loading">
+      <div>Loading destination details...</div>
     </div>
   );
 
   if (error) return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-2xl text-red-600">Error: {error}</div>
+    <div className="place-details-error">
+      <div>Error: {error}</div>
     </div>
   );
 
   if (!place) return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-2xl text-gray-600">Destination not found</div>
+    <div className="place-details-not-found">
+      <div>Destination not found</div>
     </div>
   );
 
+  const images = place.information?.images || [];
+
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="place-details-container">
+      <div className="place-details-content">
         <button
           onClick={() => navigate('/places')}
-          className="mb-8 text-indigo-600 hover:text-indigo-800 flex items-center"
+          className="place-details-back"
         >
-          <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="place-details-back-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
           Back to Destinations
         </button>
 
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="p-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">{place.pname}</h1>
-            <p className="text-2xl text-gray-600 mb-8">{place.pcity}</p>
+        <div className="place-details-card">
+          <div className="place-details-content-inner">
+            <h1 className="place-details-title">{place.pname}</h1>
+            <p className="place-details-city">{place.pcity}</p>
             
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4">About this Destination</h2>
-                <p className="text-gray-600">
-                  Experience the beauty and culture of {place.pname}, located in {place.pcity}. 
-                  This destination offers unique experiences and unforgettable memories.
-                </p>
+            {images.length > 0 && (
+              <div className="place-details-gallery">
+                <div className="place-details-main-image">
+                  <img 
+                    src={`http://localhost:5000/${images[currentImageIndex]}`}
+                    alt={`${place.pname} - Image ${currentImageIndex + 1}`}
+                    className="place-details-image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://via.placeholder.com/800x400?text=Image+Not+Found';
+                    }}
+                  />
+                </div>
+                {images.length > 1 && (
+                  <div className="place-details-thumbnails">
+                    {images.map((img, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentImageIndex(index)}
+                        className={`place-details-thumbnail ${currentImageIndex === index ? 'active' : ''}`}
+                      >
+                        <img 
+                          src={`http://localhost:5000/${img}`}
+                          alt={`${place.pname} - Thumbnail ${index + 1}`}
+                          className="place-details-thumbnail-image"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://via.placeholder.com/100x75?text=Image+Not+Found';
+                          }}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
+            )}
 
-              <div>
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4">Book Your Trip</h2>
-                <button
-                  onClick={() => navigate('/bookings')}
-                  className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors duration-200 text-lg"
-                >
-                  Book Now
-                </button>
+            {place.information && (
+              <div className="place-details-section">
+                <h2 className="place-details-section-title">About this Destination</h2>
+                <p className="place-details-description">
+                  {place.information.description}
+                </p>
+
+                <div className="place-details-info-grid">
+                  <div className="place-details-info-card">
+                    <h3 className="place-details-info-title">Best Time to Visit</h3>
+                    <p className="place-details-info-text">{place.information.best_time_to_visit}</p>
+                  </div>
+                  <div className="place-details-info-card">
+                    <h3 className="place-details-info-title">Local Attractions</h3>
+                    <p className="place-details-info-text">{place.information.local_attractions}</p>
+                  </div>
+                  <div className="place-details-info-card">
+                    <h3 className="place-details-info-title">Local Cuisine</h3>
+                    <p className="place-details-info-text">{place.information.local_cuisine}</p>
+                  </div>
+                  <div className="place-details-info-card">
+                    <h3 className="place-details-info-title">Transportation</h3>
+                    <p className="place-details-info-text">{place.information.transportation}</p>
+                  </div>
+                  <div className="place-details-info-card">
+                    <h3 className="place-details-info-title">Package Details</h3>
+                    <p className="place-details-info-text">
+                      Starting from ₹{place.information.package}
+                    </p>
+                  </div>
+                </div>
               </div>
+            )}
+
+            <div className="place-details-section">
+              <h2 className="place-details-section-title">Book Your Trip</h2>
+              <button
+                onClick={() => navigate('/bookings')}
+                className="place-details-book-button"
+              >
+                Book Now
+              </button>
             </div>
           </div>
         </div>

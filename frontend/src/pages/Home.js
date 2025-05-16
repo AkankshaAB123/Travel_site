@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import '../styles/pages/Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -57,59 +58,59 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="home-container">
+      <div className="home-content">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+          <h1 className="home-title">
             Welcome to the Travel Site
           </h1>
           
           {user ? (
             <div className="mt-8">
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="home-welcome-text">
                 Welcome back, <span className="font-semibold text-indigo-600">{user.username}</span>!
               </p>
-              <div className="space-y-4 sm:space-y-0 sm:flex sm:justify-center sm:space-x-4">
+              <div className="home-button-container">
                 <Link
                   to="/places"
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="home-button home-button-primary"
                 >
                   View Destinations
                 </Link>
                 <Link
                   to="/hotels"
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="home-button home-button-primary"
                 >
                   View Hotels
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="home-button home-button-secondary"
                 >
                   Logout
                 </button>
               </div>
               {error && (
-                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-md">
-                  <p className="text-sm text-red-600">{error}</p>
+                <div className="home-error">
+                  <p className="home-error-text">{error}</p>
                 </div>
               )}
             </div>
           ) : (
             <div className="mt-8">
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="home-welcome-text">
                 Please log in to access all features
               </p>
-              <div className="space-y-4 sm:space-y-0 sm:flex sm:justify-center sm:space-x-4">
+              <div className="home-button-container">
                 <Link
                   to="/login"
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="home-button home-button-primary"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="home-button home-button-secondary"
                 >
                   Register
                 </Link>

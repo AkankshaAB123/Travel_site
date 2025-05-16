@@ -20,11 +20,58 @@ exports.getAllPlaces = async (req, res) => {
 exports.getPlaceById = async (req, res) => {
   const { id } = req.params;
   try {
-    const [result] = await db.query('SELECT * FROM places WHERE pid = ?', [id]);
-    if (result.length === 0) {
+    // First get the place details
+    const [placeResults] = await db.query('SELECT * FROM places WHERE pid = ?', [id]);
+
+    if (placeResults.length === 0) {
       return res.status(404).json({ message: 'Place not found' });
     }
-    res.json(result[0]);
+
+    const place = placeResults[0];
+
+    // Map place names to match information table
+    const nameMapping = {
+      'Agra': 'Taj Mahal',
+      'Goa': 'Goa',
+      'Delhi': 'Delhi',
+      'Kerala': 'Kerala',
+      'Mysore': 'Mysore',
+      'Ladakh India': 'Ladakh'
+    };
+
+    const mappedName = nameMapping[place.pcity] || place.pcity;
+
+    // Then try to get the information from the information table
+    const [infoResults] = await db.query('SELECT * FROM information WHERE pname = ?', [mappedName]);
+
+    // Format the response
+    const placeDetails = {
+      ...place,
+      information: infoResults.length > 0 ? {
+        description: infoResults[0].pdescription || 'No description available',
+        best_time_to_visit: infoResults[0].pi_main || 'Best time to visit information not available',
+        local_attractions: infoResults[0].pi1 || 'Local attractions information not available',
+        local_cuisine: infoResults[0].pi2 || 'Local cuisine information not available',
+        transportation: infoResults[0].pi3 || 'Transportation information not available',
+        package: infoResults[0].package || 'Package information not available',
+        images: [
+          infoResults[0].pi_main,
+          infoResults[0].pi1,
+          infoResults[0].pi2,
+          infoResults[0].pi3
+        ].filter(img => img)
+      } : {
+        description: 'No description available',
+        best_time_to_visit: 'Best time to visit information not available',
+        local_attractions: 'Local attractions information not available',
+        local_cuisine: 'Local cuisine information not available',
+        transportation: 'Transportation information not available',
+        package: 'Package information not available',
+        images: []
+      }
+    };
+
+    res.json(placeDetails);
   } catch (err) {
     console.error('Error retrieving place:', err.message);
     res.status(500).json({ message: 'Error retrieving place' });

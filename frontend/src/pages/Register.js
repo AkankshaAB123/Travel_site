@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/pages/Register.css';
 
 const Register = () => {
   const [form, setForm] = useState({ username: '', email: '', password: '', confirmPassword: '' });
@@ -41,87 +42,79 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
-      {/* Background image with overlay */}
-      <div className="fixed inset-0 z-0 w-full h-full">
+    <div className="register-container">
+      <div className="register-background">
         <img
           src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80"
           alt="Travel background"
-          className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-indigo-900/60" />
+        <div className="register-overlay" />
       </div>
-      <div className="bg-white bg-opacity-90 p-10 rounded-2xl shadow-2xl w-full max-w-xl z-10 relative">
-        <h2 className="text-5xl font-bold text-center text-indigo-700 mb-10" style={{ fontFamily: 'Times New Roman, Times, serif' }}>Sign Up</h2>
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div>
-            <label className="block text-gray-700 font-bold mb-2 text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>Username</label>
+      <div className="register-form-container">
+        <h2 className="register-title">Sign Up</h2>
+        <form onSubmit={handleSubmit} className="register-form">
+          <div className="register-form-group">
+            <label className="register-label">Username</label>
             <input
               type="text"
               name="username"
               value={form.username}
               onChange={handleChange}
-              className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-400 text-2xl"
+              className="register-input"
               placeholder="Enter your username"
               required
-              style={{ fontFamily: 'Times New Roman, Times, serif' }}
             />
           </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2 text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>Email</label>
+          <div className="register-form-group">
+            <label className="register-label">Email</label>
             <input
               type="email"
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-400 text-2xl"
+              className="register-input"
               placeholder="Enter your email"
               required
-              style={{ fontFamily: 'Times New Roman, Times, serif' }}
             />
           </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2 text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>Password</label>
+          <div className="register-form-group">
+            <label className="register-label">Password</label>
             <input
               type="password"
               name="password"
               value={form.password}
               onChange={handleChange}
-              className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-400 text-2xl"
+              className="register-input"
               placeholder="Enter your password"
               required
-              style={{ fontFamily: 'Times New Roman, Times, serif' }}
             />
           </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2 text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>Confirm Password</label>
+          <div className="register-form-group">
+            <label className="register-label">Confirm Password</label>
             <input
               type="password"
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={handleChange}
-              className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-400 text-2xl"
+              className="register-input"
               placeholder="Confirm your password"
               required
-              style={{ fontFamily: 'Times New Roman, Times, serif' }}
             />
           </div>
-          {error && <div className="text-red-600 text-center font-bold text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>{error}</div>}
-          {success && <div className="text-green-600 text-center font-bold text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>{success}</div>}
+          {error && <div className="register-error">{error}</div>}
+          {success && <div className="register-success">{success}</div>}
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-lg text-2xl transition duration-200"
-            style={{ fontFamily: 'Times New Roman, Times, serif' }}
+            className="register-button"
           >
             Sign Up
           </button>
         </form>
-        <div className="mt-8 text-center text-gray-700 text-2xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+        <div className="register-signin">
           Already have an account?{' '}
           <span
-            className="text-indigo-600 hover:underline cursor-pointer font-bold"
+            className="register-signin-link"
             onClick={() => navigate('/login')}
-            style={{ fontFamily: 'Times New Roman, Times, serif' }}
           >
             Sign In
           </span>

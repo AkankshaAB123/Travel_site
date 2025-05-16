@@ -1,0 +1,192 @@
+.place-details-container {
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  padding: 2rem 1rem;
+}
+
+.place-details-content {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.place-details-back {
+  display: inline-flex;
+  align-items: center;
+  color: #4b5563;
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+.place-details-back:hover {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+
+.place-details-back-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+}
+
+.place-details-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.place-details-content-inner {
+  padding: 2rem;
+}
+
+.place-details-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.place-details-city {
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.place-details-gallery {
+  margin-bottom: 2rem;
+}
+
+.place-details-main-image {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.place-details-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.place-details-thumbnails {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.place-details-thumbnail {
+  flex: 0 0 100px;
+  height: 75px;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+  padding: 0;
+}
+
+.place-details-thumbnail.active {
+  border-color: #4f46e5;
+}
+
+.place-details-thumbnail:hover {
+  border-color: #818cf8;
+}
+
+.place-details-thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.place-details-section {
+  margin-bottom: 2rem;
+}
+
+.place-details-section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.place-details-description {
+  font-size: 1rem;
+  line-height: 1.625;
+  color: #4b5563;
+  margin-bottom: 2rem;
+}
+
+.place-details-info-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .place-details-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.place-details-info-card {
+  background-color: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.place-details-info-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.place-details-info-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+.place-details-book-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: #4f46e5;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+.place-details-book-button:hover {
+  background-color: #4338ca;
+}
+
+.place-details-loading,
+.place-details-error,
+.place-details-not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1.25rem;
+  color: #4b5563;
+}
+
+.place-details-error {
+  color: #dc2626;
+}
+
+.place-details-not-found {
+  color: #6b7280;
+} 
